@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Create Test</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+    <th:block th:insert="~{fragments/my-template :: link}"></th:block>
+
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0"> 
+                <!-- Nested Row within Card Body -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create a Test!</h1>
+                                <p th:text="${messageError}" class="h6 text-danger"></p>
+                            </div>
+                            <form id="form-createTest" th:action="@{/test/create}" th:object="${test}">
+                                <input type="hidden" th:value="${test.quiz.quizID}" name="quiz">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" 
+                                           placeholder="Test title" th:value="${test.testTitle}" 
+                                           name="testTitle" required="">
+                                </div>
+                                <div class="row form-group">
+                                                                            <p th:text="${timeError}" class="h6 text-danger"></p>
+
+                                    <div class="col">
+                                        <label for="date">Start date </label>
+                                        <input type="datetime-local" th:value="test.startTime" 
+                                               name="paramStartTime" required="">
+                                    </div>
+                                    <div class="col">
+                                        <label for="date">End date</label>
+                                        <input type="datetime-local" th:value="test.endTime" 
+                                               name="paramEndTime"
+                                               required="">
+                                    </div>
+                                </div>
+                                <div class="row form-group"> </div>
+                                <div class="row form-group"> </div>
+                                <div class="row form-group">
+                                    <a th:href="@{/home-page}" class="col btn btn-dark btn-user btn-block col mt-1 mx-3">Back home page</a>
+                                    <button type="submit" class="btn btn-primary col" form="form-createTest">Create test</button> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript--> 
+<th:block th:insert="~{fragments/my-template :: body/script}"></th:block>
+
+</body>
+</html>

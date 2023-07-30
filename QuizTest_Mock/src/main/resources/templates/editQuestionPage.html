@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Edit Question</title>
+
+    <th:block th:insert="~{fragments/my-template :: link}"></th:block>
+
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0"> 
+                <!-- Nested Row within Card Body -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create a Question!</h1>
+                            </div>
+                            <form th:action="@{/question/edit}"  th:object="${question}" class="user">
+                                <input type="hidden"  th:value="${question.quiz.quizID}" name="quiz">
+                                <input type="hidden"  th:value="${question.questionID}" name="questionID"> 
+                                <div class="form-group">
+                                    <textarea th:value="${question.questionText}" 
+                                              th:text="${question.questionText}" 
+                                              name="questionText" class="form-control" rows="3"
+                                              placeholder="Question text"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div th:each="answer, itemStat : ${question.answers}"  class="col">
+                                        <input type="hidden"  th:value="${answer.answerID}" name="answers">
+                                        <div class="form-group"> 
+                                            <input name="isCorrect" th:value="${itemStat.index}" 
+                                                   th:checked="${answer.isCorrect}" type="radio">
+                                            <textarea th:name="|answers[${itemStat.index}].answerText|" 
+                                                      th:value="${answer.answerText}" th:text="${answer.answerText}" 
+                                                      class="form-control" rows="5"
+                                                      placeholder="Answer text"></textarea>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="form-group row">
+                                    <a th:href="@{/home-page}" class="btn btn-secondary btn-user btn-block col mt-1 mx-3">Back home page</a>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block col mx-3">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript--> 
+<th:block th:insert="~{fragments/my-template :: body/script}"></th:block>
+</body>
+</html>

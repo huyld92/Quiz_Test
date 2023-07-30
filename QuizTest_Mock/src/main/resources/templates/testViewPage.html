@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Test view</title>
+
+    <th:block th:insert="~{fragments/my-template :: link}"></th:block>
+
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper"> 
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column bg-white"> 
+            <!-- Main Content -->
+            <div id="content"> 
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <div class="col d-flex justify-content-between ">
+                        <div class="p-2 h5">Total Question</div>
+                        <div class="p-2 h5">
+                            <div id="countDown" th:text="${timeDown}"}>Count down</div>
+                        </div>
+                        <!---->
+                        <div class="p-2 ">
+                            <!--<a class="btn btn-primary"> Submit</a>-->
+                            <p></p>
+                        </div>
+                    </div>
+                </nav>
+                <!-- End of Topbar --> 
+
+                <!-- Begin Page Content -->
+                <div class="container ">
+                    <div class="d-flex justify-content-center h500">
+                        <div class="col-lg-8 " > 
+                            <!-- Basic Card Example -->
+                            <div class="shadow p-3 h-75">
+                                <form th:action="@{/test/next}" th:object="${question}" 
+                                      id="form-question" class="h-100" method="POST">
+                                    <div class="card-header h-25">
+                                        <h6 class="font-weight-bold text-primary  ">
+                                            Question <span th:text="${count} + ': ' + ${question.questionText}"></span></h6>
+                                    </div>
+
+                                    <div class="h-75 border  px-4"> 
+                                        <input type="hidden" name="resultID" th:value="${resultID}">
+                                        <input type="hidden" name="count" th:value="${count}">
+                                        <input type="hidden" name="timeDown" th:value="${timeDown}" id="timeDown">
+                                        <div class="row row-cols-2 h-75 mx-4">
+                                            <div th:each="answer, itemStat : ${question.answers}"  class="col py-3">
+                                                <input type="hidden"  th:value="${answer.answerID}" name="answers">
+                                                <div class="form-group"> 
+                                                    <input name="indexAnswer" th:value="${itemStat.index}"
+                                                           th:id="'isCorrect'+ ${itemStat.index}" type="radio" class="form-check-input">
+                                                    <label th:text="${answer.answerText}" th:for="'isCorrect'+ ${itemStat.index}" class="form-check-label"></label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="d-flex justify-content-end mr-5">
+                                            <button type="submit" class="btn btn-primary ml-auto" >Next</button>
+                                        </div>
+                                    </div>
+                                </form>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid --> 
+            </div>
+            <!-- End of Main Content --> 
+
+        </div>
+        <!-- End of Content Wrapper --> 
+    </div>
+    <!-- End of Page Wrapper --> 
+
+    <script th:inline="javascript">
+        var time = [[${timeDown}]].split(":");
+        var mins = time[0];
+        var secs = time[1];
+        var interval = setInterval(function () {
+            if(secs < 1){
+                mins--;
+                secs = 60;
+            }
+            secs--;
+            var timeDown = mins + ':' + (secs < 10? '0'+secs:secs);
+            document.getElementById('countDown').innerHTML = timeDown;
+            document.getElementById("timeDown").value = timeDown;
+            if (timeDown === "0:00") {
+                clearInterval(interval);
+                document.getElementById('countDown').innerHTML = 'Time out';
+                document.getElementById("form-question").submit();
+            }
+        }, 1000);
+    </script>
+    <!-- Bootstrap core JavaScript--> 
+<th:block th:insert="~{fragments/my-template :: body/script}"></th:block> 
+</body>
+</html>

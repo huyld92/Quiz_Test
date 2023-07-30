@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Quiz-Create</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+    <th:block th:insert="~{fragments/my-template :: link}"></th:block>
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0"> 
+                <!-- Nested Row within Card Body -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create a Quiz!</h1>
+                            </div>
+                            <form th:action="@{\quiz\create}" th:object="${quiz}" class="user">
+                                <p th:text="${messageError}" class="text-danger"> </p>
+                                <div class="form-group">
+                                    <input type="text"  th:value="${quiz.quizTitle}" name="quizTitle"
+                                           class="form-control form-control-user" 
+                                           placeholder="Enter Quiz title"  required="">
+                                </div>
+                                <div class="btn-group btn-group-toggle " data-toggle="buttons">
+                                    <label th:each="topic : ${listTopic}" class="btn btn-success mr-3 mb-3">
+                                        <input type="radio" th:text="${topic.topicName}" 
+                                               th:value="${topic.topicID}" name="topic" >
+                                    </label> 
+                                </div>
+                                <div class="row form-group">
+                                    <a th:href="@{/home-page}" class="btn btn-dark btn-user btn-block col mt-1 mx-3">Back home page</a>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block col">Create quiz</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript--> 
+<th:block th:insert="~{fragments/my-template :: body/script}"></th:block>
+</body>
+</html>
